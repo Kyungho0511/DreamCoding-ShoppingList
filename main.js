@@ -10,23 +10,21 @@ form.addEventListener('submit', (event) => {
 
   const list = document.createElement('div');
   list.setAttribute('class', 'section__list');
-
-  const h2 = document.createElement('h2');
-  h2.textContent = `${form.shopping.value}`; 
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.setAttribute('class', 'section__trash');
-  deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
-  deleteBtn.addEventListener('click', () => {
-    list.remove();
-  });
-
-  list.appendChild(h2);
-  list.appendChild(deleteBtn);
+  list.innerHTML = `
+    <h2>${form.shopping.value}</h2>
+    <button class="section__trash">
+      <i class="fa-solid fa-trash"></i>
+    </button>`;
   section.appendChild(list);
-
   list.scrollIntoView();
   form.shopping.value = null;
   form.shopping.focus();
   event.preventDefault();
+});
+
+//use bubbling technique instead of adding event listener for every deleteBtn
+section.addEventListener('click', event => {
+  if(event.target.tagName == 'I') {
+    event.target.parentElement.parentElement.remove();
+  }
 });
